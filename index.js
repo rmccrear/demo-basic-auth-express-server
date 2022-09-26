@@ -1,10 +1,7 @@
 require("dotenv").config();
-
-const sequelize = require("./db");
-
 const PORT = process.env.PORT;
 
-const sequelize = require("sequelize");
+const sequelize = require("./db");
 const app = require("./app");
 
 // make sure our tables are created, start up the HTTP server.
