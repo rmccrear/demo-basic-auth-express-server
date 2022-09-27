@@ -51,7 +51,7 @@ describe("Middleware", () => {
       const res = {};
       const next = jest.fn();
       await authenticate(req, res, next);
-      expect(next).toBeCalledWith("Invalid User");
+      expect(next).toBeCalledWith("Invalid Login");
     });
     test("Authenticate Invalid Password", async () => {
       const invalidUserParams = {
@@ -69,7 +69,7 @@ describe("Middleware", () => {
       const res = {};
       const next = jest.fn();
       await authenticate(req, res, next);
-      expect(next).toBeCalledWith("Invalid Password");
+      expect(next).toBeCalledWith("Invalid Login");
     });
   });
 });
