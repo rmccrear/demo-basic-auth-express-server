@@ -35,12 +35,10 @@ const Users = sequelize.define("User", {
 // http post :3000/signup username=john password=foo
 app.post("/signup", async (req, res) => {
   try {
-    req.body; //?
     req.body.password = await bcrypt.hash(req.body.password, 10); //?
     const record = await Users.create(req.body);
     res.status(200).json(record);
   } catch (e) {
-    e; //?
     res.status(403).send("Error Creating User");
   }
 });
@@ -58,11 +56,11 @@ app.post("/signin", async (req, res) => {
       - Split on ':' to turn it into an array
       - Pull username and password from that array
   */
-
+  const a = req.headers.authorization; // ['Basic', 'sdkjdsljd=']
   let basicHeaderParts = req.headers.authorization.split(" "); // ['Basic', 'sdkjdsljd=']
   let encodedString = basicHeaderParts.pop(); // sdkjdsljd=
   let decodedString = base64.decode(encodedString); // "username:password"
-  let [username, password] = decodedString.split(":"); // username, password
+  let [username, password] = decodedString.split(":"); // username, password //?
 
   /*
     Now that we finally have username and password, let's see if it's valid
