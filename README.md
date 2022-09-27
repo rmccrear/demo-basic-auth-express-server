@@ -14,3 +14,5 @@ To create new user, POST to `/signup` with a body of
 Then you can POST to `/signin` with Basic Authorization headers.
 
 There is a live server at `https://demo-basic-auth-express-server.onrender.com/`
+
+![Whiteboard overview of functionality](docs/whiteboard-overview.png)
