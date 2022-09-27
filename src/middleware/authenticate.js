@@ -16,7 +16,7 @@ async function authenticate(req, res, next) {
   */
   const a = req.headers.authorization; // ['Basic', 'sdkjdsljd=']
   let basicHeaderParts = req.headers.authorization.split(" "); // ['Basic', 'sdkjdsljd=']
-  let encodedString = basicHeaderParts.pop(); // sdkjdsljd=
+  let encodedString = basicHeaderParts.pop(); // sdkjdsljd= //?
   let decodedString = base64.decode(encodedString); // "username:password"
   let [username, password] = decodedString.split(":"); // username, password //?
 
@@ -29,15 +29,19 @@ async function authenticate(req, res, next) {
   */
   try {
     const user = await Users.findOne({ where: { username: username } });
-    const valid = await bcrypt.compare(password, user.password);
-    if (valid) {
-      req.user = user;
-      next();
+    if (user) {
+      const valid = await bcrypt.compare(password, user.password);
+      if (valid) {
+        req.user = user;
+        return next();
+      } else {
+        next("Invalid Password");
+      }
     } else {
-      throw new Error("Invalid User");
+      next("Invalid User");
     }
   } catch (error) {
-    res.status(403).send("Invalid Login");
+    throw new Error("Database Error");
   }
 }
 

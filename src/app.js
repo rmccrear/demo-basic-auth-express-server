@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 // http post :3000/signup username=john password=foo
 app.post("/signup", async (req, res) => {
   try {
-    req.body.password = await bcrypt.hash(req.body.password, 10); //?
+    // req.body.password = await bcrypt.hash(req.body.password, 10); //?
     const record = await Users.create(req.body);
     res.status(200).json(record);
   } catch (e) {
@@ -40,6 +40,13 @@ app.post("/signup", async (req, res) => {
 app.post("/signin", authenticate, async (req, res) => {
   const user = req.user;
   res.status(200).json(user);
+  // res.status(403).send("Invalid Login");
+});
+
+app.use((err, req, res, next) => {
+  if (err === "Invalid User" || err == "Invalid Password") {
+    res.status(403).send("Invalid Login");
+  }
 });
 
 module.exports = app;

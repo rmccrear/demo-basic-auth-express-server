@@ -39,8 +39,7 @@ describe("App", () => {
   test("Signin Route Unauthorized", async () => {
     const username = "John";
     const password = "passwordForJohn";
-    const passwordHash = await bcrypt.hash(password, 10);
-    const basicAuthEncoded = base64.encode(`${username}:${passwordHash}`);
+    const basicAuthEncoded = base64.encode(`${username}:${password}`);
     await request
       .post("/signin")
       .set("Authorization", `Basic: ${basicAuthEncoded}`)
