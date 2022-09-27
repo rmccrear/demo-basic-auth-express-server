@@ -1,4 +1,4 @@
-const app = require("../app");
+const app = require("../src/app");
 const sequelize = require("../db");
 
 const supertest = require("supertest");
