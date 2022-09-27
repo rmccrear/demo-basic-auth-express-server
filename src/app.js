@@ -40,7 +40,11 @@ app.post("/signup", async (req, res) => {
 app.post("/signin", authenticate, async (req, res) => {
   const user = req.user;
   res.status(200).json(user);
-  // res.status(403).send("Invalid Login");
+});
+
+app.get("/signin", authenticate, async (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
 });
 
 app.use((err, req, res, next) => {

@@ -14,7 +14,10 @@ async function authenticate(req, res, next) {
       - Split on ':' to turn it into an array
       - Pull username and password from that array
   */
-  const a = req.headers.authorization; // ['Basic', 'sdkjdsljd=']
+  if (!req.headers.authorization) {
+    next("Invalid User");
+    return;
+  }
   let basicHeaderParts = req.headers.authorization.split(" "); // ['Basic', 'sdkjdsljd=']
   let encodedString = basicHeaderParts.pop(); // sdkjdsljd= //?
   let decodedString = base64.decode(encodedString); // "username:password"
