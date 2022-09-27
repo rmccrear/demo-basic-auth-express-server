@@ -48,7 +48,7 @@ app.get("/signin", authenticate, async (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  if (err === "Invalid User" || err == "Invalid Password") {
+  if (err === "Invalid Login") {
     res.status(403).send("Invalid Login");
   }
 });

@@ -18,4 +18,20 @@ Users.addHook("beforeCreate", async (user, options) => {
   user.password = passwordHash;
 });
 
+Users.authenticateBasic = async (username, password) => {
+  try {
+    const user = await Users.findOne({ where: { username: username } });
+    if (user) {
+      const valid = await bcrypt.compare(password, user.password);
+      if (valid) {
+          return user;
+      }
+    }
+  } catch (e) {
+      console.log(e);
+      return false;
+  }
+  return false;
+}
+
 module.exports = Users;

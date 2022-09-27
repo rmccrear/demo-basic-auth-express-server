@@ -30,21 +30,12 @@ async function authenticate(req, res, next) {
        - bcrypt does this by re-encrypting the plaintext password and comparing THAT
     3. Either we're valid or we throw an error
   */
-  try {
-    const user = await Users.findOne({ where: { username: username } });
-    if (user) {
-      const valid = await bcrypt.compare(password, user.password);
-      if (valid) {
-        req.user = user;
-        return next();
-      } else {
-        next("Invalid Password");
-      }
-    } else {
-      next("Invalid User");
-    }
-  } catch (error) {
-    throw new Error("Database Error");
+  const user = await Users.authenticateBasic(username, password);
+  if (user) {
+      req.user = user;
+      next();
+  } else {
+      next("Invalid Login");
   }
 }
 
